@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import React from 'react';
+import { useMutation, useQuery } from '@apollo/client';
 import {
   Container,
   Card,
@@ -9,34 +10,26 @@ import {
 
 import { getMe } from '../utils/queries';
 import Auth from '../utils/auth';
-import { removeBookId } from '../utils/mutations';
-
-import { useMutation, UseQuery } from '@apollo/client';
+import { REMOVE_BOOK } from '../utils/mutations';
 
 const SavedBooks = () => {
 
   const { loading, data } = useQuery(getMe);
 
-  const [removeBook, { error }] = useMutation(removeBookId, {
-    refetchQueries: [
-      getMe,
-      "me"
-    ]
-  });
+  const [removeBook] = useMutation(REMOVE_BOOK);
+
 
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
   const handleDeleteBook = async (bookId) => {
     const token = Auth.loggedIn() ? Auth.getToken() : null;
 
     if (!token) {
-      return false;
+      return;
     }
 
     try {
-      const { data } = await removeBook({
-        variables: { bookId },
-      });
-
+      await removeBook({ variables: { bookId } });
+    
     } catch (err) {
       console.error(err);
     }
@@ -47,6 +40,8 @@ const SavedBooks = () => {
     return <h2>LOADING...</h2>;
   }
 
+  const savedBooks = data ? data.me.savedBooks : [];
+
   return (
     <>
       <div fluid className="text-light bg-dark p-5">
@@ -56,12 +51,12 @@ const SavedBooks = () => {
       </div>
       <Container>
         <h2 className='pt-5'>
-          {userData.savedBooks.length
-            ? `Viewing ${userData.savedBooks.length} saved ${userData.savedBooks.length === 1 ? 'book' : 'books'}:`
+          {savedBooks.length
+            ? `Viewing ${savedBooks.length} saved ${savedBooks.length === 1 ? 'book' : 'books'}:`
             : 'You have no saved books!'}
         </h2>
         <Row>
-          {userData.savedBooks.map((book) => {
+          {savedBooks.map((book) => {
             return (
               <Col md="4">
                 <Card key={book.bookId} border='dark'>

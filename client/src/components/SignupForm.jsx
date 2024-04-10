@@ -1,7 +1,6 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 
-import { createUser } from '../utils/API';
 import Auth from '../utils/auth';
 import { useMutation } from '@apollo/client';
 import { ADD_USER } from '../utils/mutations';
@@ -10,7 +9,7 @@ const SignupForm = () => {
   // set initial form state
   const [userFormData, setUserFormData] = useState({ username: '', email: '', password: '' });
   // set state for form validation
-  const [validated] = useState(false);
+  const [validated, setValidated] = useState(false);
   // set state for alert
   const [showAlert, setShowAlert] = useState(false);
 
@@ -27,27 +26,53 @@ const SignupForm = () => {
     // check if form has everything (as per react-bootstrap docs)
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
-      event.preventDefault();
+      event.stopPropagation();
       event.stopPropagation();
     }
 
     try {
-     const { data } = await addUser({
-        variables: { ...userFormData},
-     });
+      const { data } = await addUser({
+        variables: { ...userFormData },
+      });
 
-     Auth.login(data.addUser.token);
+      Auth.login(data.addUser.token);
     } catch (err) {
-      console.error(err);
+      console.log("hi");
       setShowAlert(true);
     }
-
+  
     setUserFormData({
-      username: '',
-      email: '',
-      password: '',
-    });
-  };
+              username: '',
+              email: '',
+              password: '',
+            });
+          };
+  
+  
+  
+  
+  
+  
+  
+  
+      //     if (data && data.addUser && data.addUser.token) {
+  //       Auth.login(data.addUser.token);
+  //       setUserFormData({
+  //         username: '',
+  //         email: '',
+  //         password: '',
+  //       });
+  //       setValidated(false);
+  //     } else {
+  //       throw new Error('Authentication failed');
+  //     }
+  //   } catch (err) {
+  //     console.log("hi");
+  //     setShowAlert(true);
+
+  //   };
+  // }
+
 
   return (
     <>
