@@ -50,28 +50,6 @@ const SignupForm = () => {
   
   
   
-  
-  
-  
-  
-  
-      //     if (data && data.addUser && data.addUser.token) {
-  //       Auth.login(data.addUser.token);
-  //       setUserFormData({
-  //         username: '',
-  //         email: '',
-  //         password: '',
-  //       });
-  //       setValidated(false);
-  //     } else {
-  //       throw new Error('Authentication failed');
-  //     }
-  //   } catch (err) {
-  //     console.log("hi");
-  //     setShowAlert(true);
-
-  //   };
-  // }
 
 
   return (
