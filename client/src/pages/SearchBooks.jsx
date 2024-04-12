@@ -74,7 +74,7 @@ const SearchBooks = () => {
     }
 
     try {
-      await saveBookMutation({
+      await saveBook({
         variables: { bookData: { ...bookToSave } },
       });
       setSavedBookIds([...savedBookIds, bookToSave.bookId]);
