@@ -8,7 +8,7 @@ export const getMe = (token) => {
   });
 };
 
-export const createUser = (userData) => {
+export const addUser = (userData) => {
   return fetch('/api/users', {
     method: 'POST',
     headers: {
@@ -34,7 +34,7 @@ export const saveBook = (bookData, token) => {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
-      // authorization: `Bearer ${token}`,
+      authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(bookData),
   });
