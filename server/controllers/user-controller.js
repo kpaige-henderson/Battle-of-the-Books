@@ -17,7 +17,7 @@ module.exports = {
     res.json(foundUser);
   },
   // create a user, sign a token, and send it back (to client/src/components/SignUpForm.js)
-  async createUser({ body }, res) {
+  async addUser({ body }, res) {
     const user = await User.create(body);
 
     if (!user) {
@@ -34,9 +34,9 @@ module.exports = {
       return res.status(400).json({ message: "Can't find this user" });
     }
 
-    const correctPw = await user.isCorrectPassword(body.password);
+    const rightPassword = await user.isCorrectPassword(body.password);
 
-    if (!correctPw) {
+    if (!rightPassword) {
       return res.status(400).json({ message: 'Wrong password!' });
     }
     const token = signToken(user);
