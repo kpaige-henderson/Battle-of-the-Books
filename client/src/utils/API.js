@@ -34,7 +34,7 @@ export const saveBook = (bookData, token) => {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
-      authorization: `Bearer ${token}`,
+      // authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(bookData),
   });
